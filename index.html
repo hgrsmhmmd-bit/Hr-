@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HR Wish Goal V4</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@500;700;800&display=swap');
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#101827;color:#fff;font-family:'Baloo Bhaijaan 2',Tahoma,sans-serif;user-select:none}body{touch-action:none}.game{position:relative;width:100vw;height:100vh;overflow:hidden}.scene{position:absolute;inset:0;display:none;overflow:hidden}.scene.active{display:block}.bg{position:absolute;inset:0;background-size:cover;background-position:center}.bg.office{background-image:url("BG_1.png")}.bg.match{background-image:url("BG_2.png")}.tint{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.02),rgba(0,0,0,.12));pointer-events:none}
+button{cursor:pointer;border:4px solid #3b2414;border-radius:14px;padding:13px 28px;font:800 22px 'Baloo Bhaijaan 2',Tahoma;color:#2b1833;background:linear-gradient(#fff2a0,#ffbd38);box-shadow:0 7px 0 #8e5200,0 14px 25px rgba(0,0,0,.25);transition:.12s}button:hover{transform:translateY(-2px);filter:brightness(1.06)}button:active{transform:translateY(5px);box-shadow:0 2px 0 #8e5200}.green{color:#fff;background:linear-gradient(#7ee65b,#329d2f);border-color:#135018;box-shadow:0 7px 0 #1b6410}.blue{color:#fff;background:linear-gradient(#5f8dff,#284ec6);border-color:#101a49;box-shadow:0 7px 0 #111f66}.sound{position:absolute;left:18px;top:18px;z-index:90;display:flex;gap:8px}.sound button{font-size:15px;padding:8px 12px;border-radius:10px}
+.camera{position:absolute;inset:0}.camera.shake{animation:shake .28s ease-out}@keyframes shake{20%{transform:translate(8px,-4px)}40%{transform:translate(-7px,5px)}60%{transform:translate(5px,3px)}80%{transform:translate(-3px,-2px)}100%{transform:translate(0)}}
+.desk{position:absolute;left:7%;bottom:5%;width:38%;min-width:390px;height:155px;background:linear-gradient(#a5663c,#60331e);border:6px solid #2e160d;border-radius:18px;box-shadow:0 18px 0 rgba(0,0,0,.24);z-index:9}.desk:before{content:"";position:absolute;z-index:10;left:10%;top:-62px;width:155px;height:88px;background:#242a39;border:6px solid #101724;border-radius:10px;box-shadow:82px 50px 0 -24px #fff3c8,84px 52px 0 -18px #311d42}.desk:after{content:"طلبات الموظفين";position:absolute;z-index:11;right:28px;top:-45px;width:110px;height:62px;display:flex;align-items:center;justify-content:center;text-align:center;background:#fff4d4;color:#321b25;border:5px solid #321b13;border-radius:10px;font-weight:800;font-size:15px}
+.hr{position:absolute;left:15%;bottom:19%;width:190px;height:270px;z-index:6;filter:drop-shadow(0 13px 0 rgba(0,0,0,.22))}.hr.talk{animation:bob .75s ease-in-out infinite}@keyframes bob{50%{transform:translateY(-6px)}}.hr .hair{position:absolute;left:31px;top:0;width:132px;height:58px;background:#382017;border:5px solid #1b1110;border-radius:45px 45px 18px 18px;z-index:4}.hr .hair:before{content:"";position:absolute;left:9px;top:13px;width:36px;height:26px;background:#563421;border-radius:50%;box-shadow:34px -8px 0 #2b1713,68px -1px 0 #563421}.hr .head{position:absolute;left:37px;top:24px;width:120px;height:120px;background:#ffc27d;border:5px solid #1b1110;border-radius:42px;box-shadow:inset -10px -8px #e18d51;z-index:3}.hr .eye{position:absolute;top:48px;width:18px;height:22px;background:#111827;border-radius:50%;box-shadow:inset 4px 3px 0 #fff}.hr .eye.l{left:29px}.hr .eye.r{right:29px}.hr .cheek{position:absolute;top:75px;width:16px;height:9px;background:#f58a8a;border-radius:50%;opacity:.75}.hr .cheek.l{left:18px}.hr .cheek.r{right:18px}.hr .mouth{position:absolute;left:43px;top:82px;width:36px;height:17px;border-bottom:6px solid #2c1713;border-radius:0 0 30px 30px}.hr.sad .eye{height:8px;top:58px;box-shadow:none;border-radius:0}.hr.sad .mouth{top:88px;border-bottom:0;border-top:6px solid #2c1713;border-radius:30px 30px 0 0}.hr .body{position:absolute;left:23px;top:137px;width:145px;height:120px;background:#fff;border:5px solid #1b1110;border-radius:26px 26px 14px 14px;z-index:2}.hr .tie{position:absolute;left:83px;top:151px;width:27px;height:78px;background:#2a5bc7;border:4px solid #18223d;clip-path:polygon(50% 0,100% 22%,72% 100%,28% 100%,0 22%);z-index:5}.hr .badge{position:absolute;left:62px;top:208px;width:58px;text-align:center;background:#ffe26d;color:#17203a;border:4px solid #17203a;border-radius:5px;font-size:14px;font-weight:900;z-index:6}.hr .arm{position:absolute;top:152px;width:38px;height:86px;background:#fff;border:5px solid #1b1110;border-radius:23px;z-index:1}.hr .arm.l{left:-3px;transform:rotate(24deg)}.hr .arm.r{right:-3px;transform:rotate(-26deg)}.hr.point .arm.r{transform:rotate(-82deg);top:130px;right:-18px}
+.pixel-window{position:absolute;background:#fff4d2;color:#251634;border:6px solid #2a183c;border-radius:8px;box-shadow:10px 10px 0 rgba(30,10,45,.35);z-index:8}.pixel-window:before{content:"";position:absolute;inset:8px;border:3px dashed rgba(92,53,34,.35);pointer-events:none}.paper-title{position:absolute;top:22px;right:50%;transform:translateX(50%) rotate(-1deg);background:#ffe887;color:#2d183a;border:5px solid #2a183c;border-radius:7px;padding:8px 24px;font-weight:900;font-size:25px;box-shadow:6px 6px 0 rgba(0,0,0,.25);z-index:30}.speech{right:7%;top:15%;width:min(610px,54vw);min-height:145px;padding:30px;font-size:25px;font-weight:800;line-height:1.6}.speech:after{content:"";position:absolute;left:-28px;bottom:34px;width:34px;height:34px;background:#fff4d2;border-left:6px solid #2a183c;border-bottom:6px solid #2a183c;transform:rotate(45deg)}.box{right:7%;bottom:11%;width:min(610px,54vw);padding:26px}.notebook{background:#fff4d3;background-image:linear-gradient(90deg,#e0a56d 0 4px,transparent 4px),repeating-linear-gradient(#fff4d3 0 31px,#e8d3a8 32px)}textarea{width:100%;height:118px;resize:none;outline:0;border:5px solid #b87b45;border-radius:9px;padding:15px;background:#fffdf6;color:#2a183c;font:800 23px 'Baloo Bhaijaan 2',Tahoma;direction:rtl}.counter{text-align:left;font-weight:900;color:#6a3f22;margin:8px 4px 12px}.chips{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}.chip{background:#ffe1ef;border:3px solid #b03c69;color:#4b1233;padding:7px 12px;border-radius:9px;font-weight:900;cursor:pointer}
+.match-ui{position:absolute;z-index:35;background:#fff4d2;color:#251634;border:5px solid #2a183c;border-radius:8px;padding:10px 18px;font-weight:900;box-shadow:6px 6px 0 rgba(0,0,0,.3)}#hud{top:20px;right:20px;font-size:21px}#goalText{top:20px;left:50%;transform:translateX(-50%);min-width:360px;text-align:center;font-size:21px;background:#6a351c;color:#ffe680;border-color:#35170b}#tip{bottom:20px;right:20px;font-size:18px}.power{position:absolute;left:22px;bottom:22px;width:240px;height:30px;background:#251634;border:5px solid #fff4d2;border-radius:8px;overflow:hidden;z-index:36;box-shadow:6px 6px 0 rgba(0,0,0,.3)}.fill{width:0%;height:100%;background:linear-gradient(90deg,#56d658,#ffdf57,#ff5e5e)}
+.goal{position:absolute;left:50%;top:43%;width:350px;height:210px;transform:translate(-50%,-50%);border:12px solid #fff;border-bottom:0;z-index:8;background:linear-gradient(90deg,rgba(255,255,255,.48) 4px,transparent 4px) 0 0/32px 32px,linear-gradient(rgba(255,255,255,.48) 4px,transparent 4px) 0 0/32px 32px;filter:drop-shadow(0 13px 0 rgba(0,0,0,.24));transition:left .78s cubic-bezier(.16,1.25,.34,1),top .78s cubic-bezier(.16,1.25,.34,1),transform .78s cubic-bezier(.16,1.25,.34,1),opacity .42s ease}.goal:before,.goal:after{display:none}.goal:before{left:62px;transform:rotate(16deg)}.goal:after{right:62px;transform:rotate(-16deg)}.face{position:absolute;left:50%;top:44%;width:132px;height:74px;transform:translate(-50%,-50%);opacity:0;transition:.16s}.goal.scared .face{opacity:1}.face:before,.face:after{content:"";position:absolute;top:0;width:32px;height:40px;border-radius:50%;background:#10121f;box-shadow:inset 9px 9px 0 #fff}.face:before{left:17px}.face:after{right:17px}.gmouth{position:absolute;left:45px;top:48px;width:44px;height:20px;border-bottom:9px solid #10121f;border-radius:0 0 44px 44px}.goal.fade{opacity:0;transform:translate(-50%,-50%) scale(.12)}.goal.small{transform:translate(-50%,-50%) scale(.33) rotate(-4deg)}
+.ball{position:absolute;left:50%;top:79%;width:82px;height:82px;border-radius:50%;z-index:14;cursor:grab;touch-action:none;background:radial-gradient(circle at 50% 50%,#111 0 14px,transparent 15px),radial-gradient(circle at 23% 25%,#111 0 10px,transparent 11px),radial-gradient(circle at 77% 27%,#111 0 10px,transparent 11px),radial-gradient(circle at 28% 77%,#111 0 10px,transparent 11px),radial-gradient(circle at 74% 75%,#111 0 10px,transparent 11px),#fff;border:6px solid #111;box-shadow:0 12px 0 rgba(0,0,0,.25);transform:translate(-50%,-50%)}.ball.ready{animation:pulse 1s infinite ease-in-out}@keyframes pulse{50%{filter:drop-shadow(0 0 14px rgba(255,255,255,.9))}}
+.player{position:absolute;left:43%;top:74%;width:85px;height:130px;transform:translate(-50%,-50%);z-index:12;filter:drop-shadow(0 8px 0 rgba(0,0,0,.18))}.ph{position:absolute;left:22px;top:0;width:42px;height:42px;background:#f3ad70;border:4px solid #211;border-radius:16px}.phr{position:absolute;left:18px;top:-7px;width:50px;height:25px;background:#2d1814;border:4px solid #211;border-radius:20px 20px 8px 8px}.pb{position:absolute;left:16px;top:41px;width:54px;height:54px;background:#c83232;border:4px solid #211;border-radius:12px}.pb:after{content:"10";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#ffd45c;font-weight:900}.pl{position:absolute;top:91px;width:18px;height:45px;background:#1d2b55;border:4px solid #211;border-radius:9px}.pl.l{left:22px}.pl.r{right:18px}.player.charge .pl.r{transform:rotate(-20deg)}.player.kick .pl.r{transform-origin:top center;animation:kick .32s ease-out}@keyframes kick{50%{transform:rotate(-62deg)}}
+.aim{position:absolute;height:8px;background:linear-gradient(90deg,rgba(255,255,255,.1),#fff,#ffd45c);border:3px solid #241735;border-radius:99px;transform-origin:right center;z-index:13;display:none;pointer-events:none}.pop{position:absolute;top:112px;left:50%;transform:translateX(-50%);z-index:50;background:#fff4d2;color:#241735;border:5px solid #241735;border-radius:8px;padding:12px 24px;font-size:28px;font-weight:900;opacity:0;box-shadow:6px 6px 0 rgba(0,0,0,.3)}.pop.show{animation:pop .9s ease}@keyframes pop{20%,78%{opacity:1;transform:translateX(-50%) scale(1)}100%{opacity:0;transform:translateX(-50%) scale(1.15)}}.dust{position:absolute;width:18px;height:18px;background:#e9d299;border-radius:50%;z-index:10;opacity:.95;animation:dust .5s ease-out forwards}@keyframes dust{to{transform:translate(var(--dx),var(--dy)) scale(.1);opacity:0}}
+.report{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(890px,92vw);min-height:550px;padding:46px;text-align:center;z-index:8;background:#fff4d2;color:#241735;border:7px solid #2a183c;border-radius:8px;box-shadow:12px 12px 0 rgba(30,10,45,.35)}.report h1{margin:0;font-size:42px}.zero{font-size:145px;line-height:1;color:#ffbd35;font-weight:900;text-shadow:6px 6px 0 #2a183c;margin:32px 0}.paper{display:inline-block;background:#fff1c7;border:6px dashed #df8d2e;border-radius:8px;padding:22px 38px;font-size:25px;font-weight:900;transform:rotate(-2deg);margin-bottom:28px}
+@media(max-width:850px){.paper-title{font-size:19px;top:14px}.desk{min-width:300px;width:68%;left:50%;transform:translateX(-50%);bottom:3%}.hr{left:50%;transform:translateX(-50%) scale(.78);bottom:31%}.speech{left:18px;right:18px;top:74px;width:auto;font-size:19px;min-height:110px;padding:20px}.box{left:18px;right:18px;bottom:28px;width:auto}textarea{height:100px;font-size:18px}.goal{width:280px;height:170px;top:45%}.ball{width:70px;height:70px}.player{transform:translate(-50%,-50%) scale(.8)}#goalText{top:78px;min-width:260px;font-size:17px}#hud{font-size:16px}#tip{font-size:14px;left:16px;right:16px;bottom:16px;text-align:center}.power{width:180px;height:26px}}
+
+/* === V7 Polish === */
+.emoji-particle{
+  position:absolute;
+  z-index:80;
+  font-size:30px;
+  pointer-events:none;
+  animation:floatEmoji 1.4s ease-out forwards;
+  filter:drop-shadow(0 4px 0 rgba(0,0,0,.22));
+}
+@keyframes floatEmoji{
+  0%{opacity:0;transform:translate(0,0) scale(.45) rotate(0deg)}
+  18%{opacity:1}
+  100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(1.2) rotate(var(--rot))}
+}
+.trail{
+  position:absolute;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  background:rgba(255,255,255,.75);
+  z-index:11;
+  pointer-events:none;
+  animation:trailFade .45s ease-out forwards;
+}
+@keyframes trailFade{
+  to{opacity:0;transform:scale(.2)}
+}
+.goal.scared{
+  animation:goalPanic .28s ease-in-out infinite;
+}
+@keyframes goalPanic{
+  0%,100%{filter:drop-shadow(0 13px 0 rgba(0,0,0,.24))}
+  50%{filter:drop-shadow(0 13px 0 rgba(0,0,0,.24)) brightness(1.12)}
+}
+.goal.escape{
+  animation:goalEscape .72s cubic-bezier(.16,1.25,.34,1);
+}
+@keyframes goalEscape{
+  0%{transform:translate(-50%,-50%) scale(1,.92) rotate(0deg)}
+  25%{transform:translate(-50%,-50%) scale(.82,1.15) rotate(-4deg)}
+  100%{transform:translate(-50%,-50%) scale(1) rotate(var(--goalRot, 8deg))}
+}
+.goal-laugh{
+  position:absolute;
+  left:50%;
+  top:-42px;
+  transform:translateX(-50%);
+  font-size:32px;
+  opacity:0;
+  pointer-events:none;
+}
+.goal.scared .goal-laugh{opacity:1;animation:laughPop .8s ease-out infinite}
+@keyframes laughPop{
+  0%,100%{transform:translateX(-50%) translateY(0) scale(1)}
+  50%{transform:translateX(-50%) translateY(-6px) scale(1.12)}
+}
+
+
+/* === Spacetoon Vibe Layer === */
+.scene::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255,222,78,.35) 0 2px, transparent 3px),
+    radial-gradient(circle at 85% 14%, rgba(255,255,255,.45) 0 2px, transparent 3px),
+    radial-gradient(circle at 72% 72%, rgba(255,222,78,.25) 0 2px, transparent 3px),
+    radial-gradient(circle at 25% 82%, rgba(255,255,255,.25) 0 2px, transparent 3px);
+  mix-blend-mode:screen;
+  z-index:2;
+}
+.bg.office::before,
+.bg.match::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 18% 22%, rgba(255,216,89,.20), transparent 13%),
+    radial-gradient(circle at 80% 18%, rgba(128,88,255,.18), transparent 16%),
+    linear-gradient(135deg, rgba(60,30,120,.08), rgba(255,195,70,.08));
+  pointer-events:none;
+}
+.paper-title{
+  background:#ffe887;
+  color:#2d183a;
+  border-color:#2a183c;
+  text-shadow:none;
+}
+.pixel-window{
+  background:linear-gradient(180deg,#fff7d7,#ffe8ab);
+  border-color:#35165f;
+  box-shadow:10px 10px 0 rgba(39,20,82,.38), inset 0 0 0 4px rgba(255,255,255,.35);
+}
+.pixel-window:before{
+  border-color:rgba(126,63,224,.35);
+}
+button{
+  border-color:#35165f;
+  box-shadow:0 7px 0 #4a247a,0 14px 25px rgba(0,0,0,.25);
+}
+.green{
+  background:linear-gradient(#62e887,#25a84e);
+  border-color:#184f40;
+  box-shadow:0 7px 0 #176437;
+}
+.blue{
+  background:linear-gradient(135deg,#5fd5ff,#634fff 55%,#351e94);
+  border-color:#23145f;
+  box-shadow:0 7px 0 #24135e;
+}
+.match-ui{
+  background:linear-gradient(180deg,#fff7d7,#ffe49b);
+  border-color:#35165f;
+  color:#281546;
+}
+#goalText{
+  background:linear-gradient(135deg,#38165e,#6f32d2);
+  color:#ffe86a;
+  border-color:#ffd64f;
+}
+.goal{
+  border-color:#fff8d8;
+  filter:drop-shadow(0 13px 0 rgba(0,0,0,.24)) drop-shadow(0 0 12px rgba(255,214,79,.35));
+}
+.goal.scared{
+  filter:drop-shadow(0 13px 0 rgba(0,0,0,.24)) drop-shadow(0 0 18px rgba(255,214,79,.65));
+}
+.ball{
+  box-shadow:0 12px 0 rgba(0,0,0,.25), 0 0 16px rgba(255,255,255,.45);
+}
+.spacetoon-orbit{
+  position:absolute;
+  z-index:6;
+  pointer-events:none;
+  font-size:30px;
+  opacity:.88;
+  animation:orbitFloat 5s ease-in-out infinite;
+  filter:drop-shadow(0 4px 0 rgba(0,0,0,.18));
+}
+.spacetoon-orbit.o1{left:7%;top:14%;animation-delay:.1s}
+.spacetoon-orbit.o2{right:9%;top:16%;animation-delay:1.2s}
+.spacetoon-orbit.o3{left:12%;bottom:18%;animation-delay:2.1s}
+@keyframes orbitFloat{
+  0%,100%{transform:translateY(0) rotate(-5deg)}
+  50%{transform:translateY(-16px) rotate(8deg)}
+}
+.comet{
+  position:absolute;
+  z-index:5;
+  width:90px;
+  height:4px;
+  border-radius:20px;
+  background:linear-gradient(90deg,transparent,#fff8c9,#ffd64f);
+  opacity:.0;
+  pointer-events:none;
+  animation:comet 6s linear infinite;
+}
+.comet.c1{top:18%;left:-12%;animation-delay:.8s}
+.comet.c2{top:30%;left:-18%;animation-delay:3.1s}
+@keyframes comet{
+  0%{opacity:0;transform:translateX(0) translateY(0) rotate(-12deg)}
+  8%{opacity:.9}
+  24%{opacity:0;transform:translateX(135vw) translateY(80px) rotate(-12deg)}
+  100%{opacity:0}
+}
+
+
+/* === Soft HR polish === */
+.spacetoon-orbit{
+  z-index:5;
+}
+.scene:not(.active) ~ .spacetoon-orbit,
+#match.active ~ .spacetoon-orbit{
+  display:none;
+}
+.hr::before{
+  content:"";
+  position:absolute;
+  left:-35px;
+  top:-28px;
+  width:260px;
+  height:160px;
+  pointer-events:none;
+  z-index:-1;
+  opacity:.92;
+  background:
+    radial-gradient(circle at 15% 25%, rgba(255,105,180,.95) 0 7px, transparent 8px),
+    radial-gradient(circle at 80% 18%, rgba(255,215,80,.95) 0 6px, transparent 7px),
+    radial-gradient(circle at 70% 75%, rgba(255,105,180,.85) 0 6px, transparent 7px),
+    radial-gradient(circle at 28% 82%, rgba(255,255,255,.85) 0 5px, transparent 6px);
+  filter:drop-shadow(0 4px 0 rgba(0,0,0,.12));
+  animation:hrAura 2.8s ease-in-out infinite;
+}
+#challenge .hr::before{
+  background:
+    radial-gradient(circle at 15% 25%, rgba(255,110,30,.95) 0 8px, transparent 9px),
+    radial-gradient(circle at 80% 18%, rgba(255,215,80,.95) 0 7px, transparent 8px),
+    radial-gradient(circle at 70% 75%, rgba(120,220,255,.9) 0 7px, transparent 8px),
+    radial-gradient(circle at 28% 82%, rgba(255,255,255,.85) 0 5px, transparent 6px);
+}
+#lose .hr::before{
+  background:
+    radial-gradient(circle at 15% 25%, rgba(148,45,220,.95) 0 8px, transparent 9px),
+    radial-gradient(circle at 80% 18%, rgba(80,20,130,.95) 0 7px, transparent 8px),
+    radial-gradient(circle at 70% 75%, rgba(255,80,120,.85) 0 7px, transparent 8px),
+    radial-gradient(circle at 28% 82%, rgba(255,255,255,.75) 0 5px, transparent 6px);
+}
+@keyframes hrAura{
+  0%,100%{transform:translateY(0) scale(1)}
+  50%{transform:translateY(-8px) scale(1.04)}
+}
+
+/* HR more handsome / less fake */
+.hr .head{
+  border-radius:46px 46px 38px 38px;
+  background:linear-gradient(180deg,#ffd19a,#f2a764);
+}
+.hr .hair{
+  height:66px;
+  top:-7px;
+  border-radius:48px 48px 22px 22px;
+  background:linear-gradient(180deg,#26130f,#56301f);
+}
+.hr .hair:after{
+  content:"";
+  position:absolute;
+  right:14px;
+  top:30px;
+  width:40px;
+  height:22px;
+  background:#2b1713;
+  border-radius:0 0 30px 30px;
+  transform:rotate(-12deg);
+}
+.hr .eye{
+  width:20px;
+  height:24px;
+}
+.hr .mouth{
+  width:42px;
+  left:39px;
+}
+.hr .body{
+  background:linear-gradient(180deg,#fff,#eaf1ff);
+}
+
+/* Player back hair */
+.player .phr:after{
+  content:"";
+  position:absolute;
+  left:-8px;
+  top:15px;
+  width:18px;
+  height:30px;
+  background:#2d1814;
+  border:4px solid #211;
+  border-radius:14px 0 0 18px;
+}
+.player .phr:before{
+  content:"";
+  position:absolute;
+  right:-7px;
+  top:13px;
+  width:16px;
+  height:28px;
+  background:#2d1814;
+  border:4px solid #211;
+  border-radius:0 14px 18px 0;
+}
+
+</style>
+</head>
+<body>
+<div class="game">
+<div class="sound"><button id="musicBtn">🎵 Music</button><button id="sfxBtn">🔊 SFX</button></div>
+<div class="spacetoon-orbit o1">⭐</div><div class="spacetoon-orbit o2">🪐</div><div class="spacetoon-orbit o3">✨</div>
+<div class="comet c1"></div><div class="comet c2"></div>
+<section class="scene active" id="start"><div class="bg office"></div><div class="tint"></div><div class="paper-title">✨ HR Wish Goal ✨</div><div class="desk"></div><div class="hr talk"><div class="hair"></div><div class="head"><div class="eye l"></div><div class="eye r"></div><div class="cheek l"></div><div class="cheek r"></div><div class="mouth"></div></div><div class="body"></div><div class="tie"></div><div class="badge">HR</div><div class="arm l"></div><div class="arm r"></div></div><div class="pixel-window speech">مرحبًا بكِ في إدارة الموارد البشرية 💜<br>اكتبي أمنيتك... وإحنا هنحاول نحققها بطريقة علمية جدًا.</div><div class="pixel-window box" style="text-align:center"><button id="goWish" class="green">اكتبي أمنيتك</button></div></section>
+<section class="scene" id="wishScene"><div class="bg office"></div><div class="tint"></div><div class="paper-title">⭐ اكتبي أمنيتك ⭐</div><div class="desk"></div><div class="hr"><div class="hair"></div><div class="head"><div class="eye l"></div><div class="eye r"></div><div class="cheek l"></div><div class="cheek r"></div><div class="mouth"></div></div><div class="body"></div><div class="tie"></div><div class="badge">HR</div><div class="arm l"></div><div class="arm r"></div></div><div class="pixel-window box notebook" style="top:16%;bottom:auto"><h2 style="margin:0 0 8px;font-size:30px">إيه أمنيتك؟</h2><textarea id="wishInput" maxlength="50" placeholder="اكتبي أمنيتك هنا..."></textarea><div class="counter"><span id="count">0</span>/50</div><div class="chips"><span class="chip">زيادة المرتب 💰</span><span class="chip">Work From Home 🏠</span><span class="chip">عايزه غوريلا 🦍</span><span class="chip">قهوة أحسن ☕</span></div><button id="submitWish" class="green">تم!</button></div></section>
+<section class="scene" id="challenge"><div class="bg office"></div><div class="tint"></div><div class="paper-title">✨ تحدي التنفيذ ✨</div><div class="desk"></div><div class="hr talk point"><div class="hair"></div><div class="head"><div class="eye l"></div><div class="eye r"></div><div class="cheek l"></div><div class="cheek r"></div><div class="mouth"></div></div><div class="body"></div><div class="tie"></div><div class="badge">HR</div><div class="arm l"></div><div class="arm r"></div></div><div class="pixel-window speech" id="challengeText">الإدارة موافقة مبدئيًا... بشرط تجيبي جون واحد بس 😇</div><div class="pixel-window box" style="text-align:center;font-size:28px;font-weight:900;line-height:1.7">⚽ معاكِ 3 محاولات<br>هيااا سدد فى الجووووون وحقق أمنيتك ✨<br><br><button id="startMatch" class="blue">يلا نبدأ ⚽</button></div></section>
+<section class="scene" id="match"><div class="camera" id="camera"><div class="bg match"></div><div class="tint"></div><div class="player" id="player"><div class="phr"></div><div class="ph"></div><div class="pb"></div><div class="pl l"></div><div class="pl r"></div></div><div class="goal" id="goal"><div class="goal-laugh">😈</div><div class="face"><div class="gmouth"></div></div></div><div class="ball ready" id="ball"></div><div class="aim" id="aim"></div><div class="pop" id="pop"></div></div><div class="match-ui" id="hud">المحاولة 1 / 3 ❤️❤️❤️</div><div class="match-ui" id="goalText">الهدف: زيادة المرتب</div><div class="match-ui" id="tip">وجّهي الشوطة بالسحب... الكرة ثابتة لحد ما تسيبيها ⚽</div><div class="power"><div class="fill" id="fill"></div></div></section>
+<section class="scene" id="lose"><div class="bg office"></div><div class="tint"></div><div class="paper-title">💔 نتيجة الطلب 💔</div><div class="desk"></div><div class="hr sad"><div class="hair"></div><div class="head"><div class="eye l"></div><div class="eye r"></div><div class="cheek l"></div><div class="cheek r"></div><div class="mouth"></div></div><div class="body"></div><div class="tie"></div><div class="badge">HR</div><div class="arm l"></div><div class="arm r"></div></div><div class="pixel-window speech" id="loseText">كان نفسي أحقق أمنيتك بجد... بس الجون كان له رأي تاني 😔</div><div class="pixel-window box" style="text-align:center"><button id="showReport">شوفي تقرير HR 📋</button></div></section>
+<section class="scene" id="reportScene"><div class="bg office"></div><div class="tint"></div><div class="report"><h1>طلبات تم تنفيذها اليوم</h1><div class="zero">0</div><div class="paper" id="reportText">أمنيتك: زيادة المرتب<br>الحالة: تحت الدراسة من 2019 😂</div><br><button id="restart" class="green">اكتبي أمنية جديدة 🔁</button></div></section>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const el = (id) => document.getElementById(id);
+
+  const scenes = {
+    start: el("start"),
+    wish: el("wishScene"),
+    challenge: el("challenge"),
+    match: el("match"),
+    lose: el("lose"),
+    report: el("reportScene")
+  };
+
+  const goWish = el("goWish");
+  const submitWish = el("submitWish");
+  const startMatch = el("startMatch");
+  const showReport = el("showReport");
+  const restart = el("restart");
+  const wishInput = el("wishInput");
+  const count = el("count");
+  const challengeText = el("challengeText");
+  const loseText = el("loseText");
+  const reportText = el("reportText");
+  const musicBtn = el("musicBtn");
+  const sfxBtn = el("sfxBtn");
+
+  const matchScene = el("match");
+  const camera = el("camera");
+  const goal = el("goal");
+  const ball = el("ball");
+  const aim = el("aim");
+  const fill = el("fill");
+  const player = el("player");
+  const hud = el("hud");
+  const goalText = el("goalText");
+  const pop = el("pop");
+
+  let wish = "زيادة المرتب";
+  let attempt = 1;
+  let dragging = false;
+  let flying = false;
+  let goalMoved = false;
+
+  let home = {x:0, y:0};
+  let ballPos = {x:0, y:0};
+  let anchor = {x:0, y:0};
+
+  let audioCtx = null;
+  let musicTimer = null;
+  let musicOn = true;
+  let sfxOn = true;
+  let currentMusic = "none";
+  let audioUnlocked = false;
+
+  const challengeLines = [
+    "هيااا سدد فى الجووووون وحقق أمنيتك ✨",
+    "الإدارة موافقة مبدئيًا... بشرط تجيبي جون واحد بس 😇",
+    "الفرصة قدامك... شوطة واحدة ممكن تحقق الأمنية ⚽",
+    "جاهزة؟ سددّي وخلي الـ HR ينبهر 😂"
+  ];
+
+  const goalReactions = ["😈 مش هتلمسني!", "🤣 الجون هرب!", "😏 حاول تاني!", "👿 مش النهارده!", "😂 Almost بس لأ!"];
+
+  const loseLines = [
+    "كان نفسي أحقق أمنيتك بجد... بس الجون كان شرير شوية 😈",
+    "أنا عملت اللي عليا... الجون ضحك علينا كلنا.",
+    "آخر محاولة كانت جامدة... بس الجون عنده موافقات داخلية.",
+    "طلبك عزيز علينا... وموجود حاليًا في درج تحت الدراسة."
+  ];
+
+  const reports = [
+    "الحالة: تحت الدراسة من 2019 😂",
+    "الحالة: في انتظار موافقة الجون 😈",
+    "الحالة: تم تحويل الطلب إلى كوكب آخر 🚀",
+    "الحالة: Pending إلى إشعار آخر."
+  ];
+
+  function show(name){
+    Object.values(scenes).forEach((s) => s && s.classList.remove("active"));
+    if(scenes[name]) scenes[name].classList.add("active");
+
+    if(name === "start" || name === "wish" || name === "challenge") playMusic("motivation");
+    if(name === "match") playMusic("match");
+    if(name === "lose" || name === "report") playMusic("sad");
+  }
+
+  function unlockAudio(){
+    if(audioUnlocked) return;
+    try{
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      if(Ctx && !audioCtx) audioCtx = new Ctx();
+      if(audioCtx && audioCtx.state === "suspended") audioCtx.resume();
+      audioUnlocked = true;
+    }catch(e){}
+  }
+
+  function tone(freq=440, dur=0.06, type="sine", gain=0.03){
+    if(!sfxOn) return;
+    try{
+      unlockAudio();
+      if(!audioCtx) return;
+      const osc = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      osc.type = type;
+      osc.frequency.value = freq;
+      g.gain.value = gain;
+      osc.connect(g);
+      g.connect(audioCtx.destination);
+      osc.start();
+      g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + dur);
+      osc.stop(audioCtx.currentTime + dur);
+    }catch(e){}
+  }
+
+  function noise(dur=0.08, gain=0.06){
+    if(!sfxOn) return;
+    try{
+      unlockAudio();
+      if(!audioCtx) return;
+      const buffer = audioCtx.createBuffer(1, audioCtx.sampleRate * dur, audioCtx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for(let i=0;i<data.length;i++) data[i] = (Math.random()*2-1) * (1-i/data.length);
+      const src = audioCtx.createBufferSource();
+      const g = audioCtx.createGain();
+      src.buffer = buffer;
+      g.gain.value = gain;
+      src.connect(g);
+      g.connect(audioCtx.destination);
+      src.start();
+    }catch(e){}
+  }
+
+  function sfx(name){
+    if(name === "hover"){ tone(820,.035,"sine",.018); }
+    if(name === "click"){ tone(560,.045,"square",.028); setTimeout(()=>tone(760,.035,"square",.018),35); }
+    if(name === "type"){ tone(920 + Math.random()*180,.025,"square",.014); }
+    if(name === "kick"){ noise(.10,.12); tone(90,.08,"triangle",.10); }
+    if(name === "whoosh"){ noise(.16,.05); tone(420,.08,"sawtooth",.025); }
+    if(name === "pop"){ tone(780,.05,"square",.03); setTimeout(()=>tone(980,.05,"square",.02),50); }
+    if(name === "sad"){ tone(240,.12,"sine",.04); setTimeout(()=>tone(180,.18,"sine",.035),140); }
+  }
+
+  const musicPatterns = {
+    motivation: {notes:[392,494,587,659,587,494,523,659], gap:380, type:"triangle", gain:.012},
+    match: {notes:[196,262,330,392,330,392,440,392], gap:240, type:"square", gain:.010},
+    sad: {notes:[330,294,262,220,196,174,196,220], gap:540, type:"sine", gain:.014}
+  };
+
+  function playMusic(mode){
+    if(!musicOn) return;
+    if(currentMusic === mode && musicTimer) return;
+    stopMusic();
+    currentMusic = mode;
+    const p = musicPatterns[mode] || musicPatterns.motivation;
+    let i = 0;
+    musicTimer = setInterval(() => {
+      if(!musicOn) return;
+      const n = p.notes[i++ % p.notes.length];
+      const old = sfxOn;
+      sfxOn = true;
+      try{
+        unlockAudio();
+        if(audioCtx){
+          const osc = audioCtx.createOscillator();
+          const g = audioCtx.createGain();
+          osc.type = p.type;
+          osc.frequency.value = n;
+          g.gain.value = p.gain;
+          osc.connect(g);
+          g.connect(audioCtx.destination);
+          osc.start();
+          g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + .08);
+          osc.stop(audioCtx.currentTime + .08);
+        }
+      }catch(e){}
+      sfxOn = old;
+    }, p.gap);
+  }
+
+  function stopMusic(){
+    if(musicTimer) clearInterval(musicTimer);
+    musicTimer = null;
+    currentMusic = "none";
+  }
+
+  function rect(){
+    return matchScene.getBoundingClientRect();
+  }
+
+  function setBall(x,y,rot=0){
+    ball.style.left = x + "px";
+    ball.style.top = y + "px";
+    ball.style.transform = `translate(-50%,-50%) rotate(${rot}deg)`;
+  }
+
+  function resetGoal(){
+    goal.style.transition = "none";
+    goal.style.opacity = "1";
+    goal.style.left = "50%";
+    goal.style.top = "43%";
+    goal.style.transform = "translate(-50%,-50%) scale(1) rotate(0deg)";
+    goal.className = "goal";
+    void goal.offsetWidth;
+    goal.style.transition = "";
+  }
+
+  function resetRound(){
+    const r = rect();
+    resetGoal();
+    home = {x:r.width*.5, y:r.height*.79};
+    ballPos = {...home};
+    anchor = {...home};
+    setBall(home.x, home.y);
+    dragging = false;
+    flying = false;
+    goalMoved = false;
+    ball.classList.add("ready");
+    aim.style.display = "none";
+    fill.style.width = "0%";
+    player.classList.remove("charge","kick");
+    hud.textContent = `المحاولة ${attempt} / 3 ${"❤️".repeat(4-attempt)}`;
+    goalText.textContent = `الهدف: ${wish}`;
+  }
+
+  function popMsg(text){
+    pop.textContent = text;
+    pop.classList.remove("show");
+    void pop.offsetWidth;
+    pop.classList.add("show");
+    sfx("pop");
+  }
+
+  function shake(){
+    camera.classList.remove("shake");
+    void camera.offsetWidth;
+    camera.classList.add("shake");
+  }
+
+  function trail(x,y){
+    const t = document.createElement("div");
+    t.className = "trail";
+    t.style.left = (x-9)+"px";
+    t.style.top = (y-9)+"px";
+    camera.appendChild(t);
+    setTimeout(()=>t.remove(),500);
+  }
+
+  function preMoveGoal(vx=0){
+    if(goalMoved) return;
+    goalMoved = true;
+    goal.classList.add("scared","escape");
+    popMsg(goalReactions[Math.floor(Math.random()*goalReactions.length)]);
+    sfx("whoosh");
+
+    const side = vx >= 0 ? -1 : 1;
+    if(attempt === 1){
+      goal.style.left = side > 0 ? "82%" : "18%";
+      goal.style.top = "41%";
+      goal.style.transform = `translate(-50%,-50%) rotate(${side*8}deg)`;
+    }else if(attempt === 2){
+      goal.classList.add("small");
+      goal.style.left = side > 0 ? "78%" : "22%";
+      goal.style.top = "40%";
+      goal.style.transform = `translate(-50%,-50%) scale(.42) rotate(${side*7}deg)`;
+    }else{
+      goal.classList.add("fade");
+      setTimeout(()=>{
+        goal.style.left = side > 0 ? "82%" : "18%";
+        goal.style.top = "41%";
+        goal.classList.remove("fade");
+        goal.style.opacity = "1";
+        goal.style.transform = `translate(-50%,-50%) scale(1) rotate(${side*8}deg)`;
+        popMsg("رجع من الناحية التانية وضحك!");
+      },380);
+    }
+    setTimeout(()=>goal.classList.remove("scared","escape"),1100);
+  }
+
+  function aimUpdate(x,y){
+    const dx = x - anchor.x;
+    const dy = y - anchor.y;
+    const len = Math.min(260, Math.hypot(dx,dy));
+    const ang = Math.atan2(dy,dx) * 180 / Math.PI;
+    aim.style.display = "block";
+    aim.style.width = len + "px";
+    aim.style.left = anchor.x + "px";
+    aim.style.top = anchor.y + "px";
+    aim.style.transform = `rotate(${ang}deg)`;
+    fill.style.width = Math.min(100, len/2.6) + "%";
+    if(len > 45){
+      goal.classList.add("scared");
+      player.classList.add("charge");
+    }else{
+      goal.classList.remove("scared");
+    }
+  }
+
+  function kick(vx,vy){
+    if(flying) return;
+    flying = true;
+    preMoveGoal(vx);
+    ball.classList.remove("ready");
+    aim.style.display = "none";
+    fill.style.width = "0%";
+    player.classList.remove("charge");
+    player.classList.add("kick");
+    sfx("kick");
+    shake();
+
+    let x = home.x, y = home.y, rot = 0, g = .30;
+    const r = rect();
+    vx = Math.max(-18, Math.min(18, vx));
+    vy = Math.max(-26, Math.min(-9, vy));
+
+    setTimeout(()=>{
+      let lastTrail = 0;
+      function step(ts){
+        vy += g;
+        vx *= .995;
+        x += vx;
+        y += vy;
+        rot += Math.hypot(vx,vy)*2.15;
+        setBall(x,y,rot);
+        if(!lastTrail || ts-lastTrail>34){ trail(x,y); lastTrail = ts; }
+
+        const out = x < -140 || x > r.width+140 || y < -160 || y > r.height+140;
+        if(!out){
+          requestAnimationFrame(step);
+        }else{
+          if(attempt >= 3){
+            sfx("sad");
+            loseText.textContent = loseLines[Math.floor(Math.random()*loseLines.length)];
+            setTimeout(()=>show("lose"),520);
+          }else{
+            attempt++;
+            setTimeout(resetRound,430);
+          }
+        }
+      }
+      requestAnimationFrame(step);
+    },110);
+  }
+
+  goWish.addEventListener("click",()=>{ unlockAudio(); sfx("click"); show("wish"); });
+  submitWish.addEventListener("click",()=>{
+    unlockAudio();
+    sfx("click");
+    wish = wishInput.value.trim() || "زيادة المرتب";
+    challengeText.textContent = challengeLines[Math.floor(Math.random()*challengeLines.length)];
+    show("challenge");
+  });
+  startMatch.addEventListener("click",()=>{ unlockAudio(); sfx("click"); attempt=1; show("match"); setTimeout(resetRound,80); });
+  showReport.addEventListener("click",()=>{ unlockAudio(); sfx("click"); reportText.innerHTML=`أمنيتك: ${wish}<br>${reports[Math.floor(Math.random()*reports.length)]}`; show("report"); });
+  restart.addEventListener("click",()=>{ unlockAudio(); sfx("click"); wishInput.value=""; count.textContent="0"; show("wish"); });
+
+  wishInput.addEventListener("input",()=>{ count.textContent = wishInput.value.length; });
+  wishInput.addEventListener("keydown",(e)=>{
+    if(e.key.length === 1 || e.key === "Backspace" || e.key === "Delete" || e.key === "Enter") sfx("type");
+  });
+
+  document.querySelectorAll("button,.chip").forEach((node)=>{
+    node.addEventListener("mouseenter",()=>sfx("hover"));
+    node.addEventListener("click",()=>sfx("click"));
+  });
+
+  document.querySelectorAll(".chip").forEach((chip)=>{
+    chip.addEventListener("click",()=>{
+      wishInput.value = chip.textContent.replace(/[💰🏠⭐☕🦍]/g,"").trim();
+      count.textContent = wishInput.value.length;
+    });
+  });
+
+  musicBtn.addEventListener("click",()=>{
+    musicOn = !musicOn;
+    musicBtn.textContent = musicOn ? "🎵 Music" : "🎵 Off";
+    if(musicOn){
+      if(scenes.match.classList.contains("active")) playMusic("match");
+      else if(scenes.lose.classList.contains("active") || scenes.report.classList.contains("active")) playMusic("sad");
+      else playMusic("motivation");
+    }else{
+      stopMusic();
+    }
+  });
+
+  sfxBtn.addEventListener("click",()=>{
+    sfxOn = !sfxOn;
+    sfxBtn.textContent = sfxOn ? "🔊 SFX" : "🔇 Off";
+  });
+
+  ball.addEventListener("pointerdown",(e)=>{
+    if(flying) return;
+    unlockAudio();
+    dragging = true;
+    ball.setPointerCapture(e.pointerId);
+    anchor = {...home};
+    ballPos = {...home};
+    aim.style.display = "block";
+    aim.style.left = home.x+"px";
+    aim.style.top = home.y+"px";
+    aim.style.width = "0px";
+    ball.classList.remove("ready");
+    player.classList.add("charge");
+    sfx("click");
+  });
+
+  ball.addEventListener("pointermove",(e)=>{
+    if(!dragging || flying) return;
+    const r = rect();
+    let x = e.clientX - r.left;
+    let y = e.clientY - r.top;
+    x = Math.max(60, Math.min(r.width-60, x));
+    y = Math.max(r.height*.34, Math.min(r.height-55, y));
+    ballPos = {x,y};
+    aimUpdate(x,y);
+  });
+
+  ball.addEventListener("pointerup",()=>{
+    if(!dragging || flying) return;
+    dragging = false;
+    const dx = ballPos.x - anchor.x;
+    const dy = ballPos.y - anchor.y;
+    const dist = Math.hypot(dx,dy);
+    let vx = dx*.12;
+    let vy = dy*.12;
+    if(dist < 28){
+      vx = (Math.random()-.5)*6;
+      vy = -12;
+    }
+    if(vy > -9) vy = -Math.abs(vy)-11;
+    kick(vx,vy);
+  });
+
+  window.addEventListener("resize",()=>{ if(matchScene.classList.contains("active") && !flying) resetRound(); });
+  document.body.addEventListener("pointerdown",()=>{ unlockAudio(); if(!musicTimer && musicOn) playMusic("motivation"); }, {once:true});
+
+  show("start");
+});
+</script>
+</body>
+</html>
